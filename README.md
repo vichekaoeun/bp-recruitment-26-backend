@@ -22,6 +22,9 @@ You'll need **Python 3.10+**. SQLite is built into Python — nothing extra to i
 git clone <your-fork-url>
 cd bp-recruitment-26-backend
 
+# Add upstream remote
+git remote add upstream https://github.com/tmublueprint/bp-recruitment-26-backend.git
+
 # (Optional) create a virtual environment
 python -m venv venv
 source venv/bin/activate   # macOS/Linux

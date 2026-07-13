@@ -98,6 +98,33 @@ python app.py        # or whatever you call it
 curl http://localhost:3000/orders
 ```
 
+## Testing your implementation
+
+Your server must be running on port 3000. You can test manually with curl:
+
+```bash
+# Create an order
+curl -X POST http://localhost:3000/orders \
+  -H "Content-Type: application/json" \
+  -d '{"customer_email": "test@example.com", "amount": 25}'
+
+# Get all orders
+curl http://localhost:3000/orders
+
+# Get orders filtered by status
+curl "http://localhost:3000/orders?status=pending"
+
+# Get a single order (replace 1 with an actual id)
+curl http://localhost:3000/orders/1
+
+# Update an order's status
+curl -X PATCH http://localhost:3000/orders/1 \
+  -H "Content-Type: application/json" \
+  -d '{"status": "shipped"}'
+```
+
+The full test suite will run automatically when you open a pull request.
+
 ## What we're looking for
 
 - Does it work? (test suite passing is the baseline)

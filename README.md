@@ -89,12 +89,15 @@ Your `orders` table should have at minimum:
 
 You'll need **Python 3.10+**. SQLite is included in the standard library — no extra installs for the database.
 
+Your entry file must be called **`app.py`**. If you have dependencies, include a
+`requirements.txt`.
+
 ```bash
-# Pick your framework, e.g.:
-pip install flask    # or fastapi, or use the stdlib http.server
+# Install deps (if any)
+pip install -r requirements.txt
 
 # Run your server
-python app.py        # or whatever you call it
+python app.py
 
 # Test it manually
 curl http://localhost:3000/orders

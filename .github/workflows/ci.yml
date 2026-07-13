@@ -16,6 +16,12 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Install candidate dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
       - name: Fetch test suite
         run: |
           git clone --depth 1 \
@@ -25,8 +31,20 @@ jobs:
         env:
           TEST_REPO_TOKEN: ${{ secrets.TEST_REPO_TOKEN }}
 
-      - name: Install dependencies
+      - name: Install test dependencies
         run: pip install requests
+
+      - name: Start server
+        run: python app.py &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: |
+          for i in $(seq 1 10); do
+            curl -s http://localhost:3000/orders > /dev/null 2>&1 && break
+            sleep 1
+          done
 
       - name: Run tests
         run: python test.py

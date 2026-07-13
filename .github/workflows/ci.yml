@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch test suite
+        run: |
+          git clone --depth 1 \
+            https://x-access-token:${{ secrets.TEST_REPO_TOKEN }}@github.com/${{ vars.TEST_REPO_ORG }}/bp-recruitment-tests.git /tmp/tests
+          cp /tmp/tests/test.py .
+          rm -rf /tmp/tests
+        env:
+          TEST_REPO_TOKEN: ${{ secrets.TEST_REPO_TOKEN }}
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run tests
+        run: python test.py

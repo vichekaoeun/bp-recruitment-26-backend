@@ -19,7 +19,7 @@ jobs:
       - name: Fetch test suite
         run: |
           git clone --depth 1 \
-            https://x-access-token:${{ secrets.TEST_REPO_TOKEN }}@github.com/${{ vars.TEST_REPO_ORG }}/bp-recruitment-tests.git /tmp/tests
+            https://x-access-token:${{ secrets.TEST_REPO_TOKEN }}@github.com/${{ vars.TEST_REPO_ORG }}/bp-recruitment-test.git /tmp/tests
           cp /tmp/tests/test.py .
           rm -rf /tmp/tests
         env:

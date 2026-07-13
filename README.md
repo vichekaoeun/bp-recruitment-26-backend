@@ -9,14 +9,18 @@ APIs, data validation, and working with a database.
 You're building a tiny service that accepts orders, stores them, and lets you query
 them back out.
 
-## Step 1: Set up your environment
+## Step 1: Fork this repo
+
+Click the **Fork** button in the top-right corner to create your own copy.
+
+## Step 2: Set up your environment
 
 You'll need **Python 3.10+**. SQLite is built into Python — nothing extra to install.
 
 ```bash
-# Clone your repo
-git clone <your-repo-url>
-cd <your-repo>
+# Clone your fork
+git clone <your-fork-url>
+cd bp-recruitment-26-backend
 
 # (Optional) create a virtual environment
 python -m venv venv
@@ -24,14 +28,13 @@ source venv/bin/activate   # macOS/Linux
 # venv\Scripts\activate    # Windows
 ```
 
-## Step 2: Implement the endpoints
+## Step 3: Implement the endpoints
 
-Open `app.py` — it has a starter structure with four endpoints to fill in.
-You can use any framework (Flask, FastAPI, etc.) or stick with the stdlib
-`http.server` module. Just keep the file named `app.py` and make sure it
-listens on **port 3000**.
+Open `app.py` — it has a starter file with four endpoints to fill in.
+Use Python's built-in [`http.server`](https://docs.python.org/3/library/http.server.html)
+module (already imported). No frameworks needed.
 
-If you use a framework, add a `requirements.txt` with your dependencies.
+Your server must listen on **port 3000**.
 
 ### What to build
 
@@ -107,12 +110,12 @@ Request body:
 
 </details>
 
-## Step 3: Set up your database
+## Step 4: Set up your database
 
-Use **SQLite** via `sqlite3` from the standard library (or an ORM if you prefer).
-Your database should reset on each server restart.
+Use **SQLite** via `sqlite3` from the standard library.
+The `get_db()` function in `app.py` already creates the table for you — just call it.
 
-Create an `orders` table with at minimum:
+Your `orders` table should have at minimum:
 
 | Column | Type | Notes |
 |--------|------|-------|
@@ -122,7 +125,7 @@ Create an `orders` table with at minimum:
 | `status` | text | not null, default `"pending"` |
 | `created_at` | text | not null |
 
-## Step 4: Test locally
+## Step 5: Test locally
 
 Start your server and test with curl:
 
@@ -138,10 +141,7 @@ curl -X POST http://localhost:3000/orders \
 # Get all orders
 curl http://localhost:3000/orders
 
-# Get orders filtered by status
-curl "http://localhost:3000/orders?status=pending"
-
-# Get a single order (replace 1 with an actual id)
+# Get a single order
 curl http://localhost:3000/orders/1
 
 # Update an order's status
@@ -150,13 +150,13 @@ curl -X PATCH http://localhost:3000/orders/1 \
   -d '{"status": "shipped"}'
 ```
 
-## Step 5: Submit
+## Step 6: Submit
 
-1. Commit and push your changes
-2. Open a pull request to the submissions repo
-3. Check the "Checks" tab to see your test score
+1. Commit and push your changes to your fork
+2. Open a pull request back to this repo
+3. Check the **Checks** tab on your PR to see your test score
 
-The full test suite runs automatically on your PR. You'll see a score out of 37.
+The full test suite runs automatically — don't report your score manually.
 
 ## What we're looking for
 

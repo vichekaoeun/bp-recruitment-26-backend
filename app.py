@@ -1,9 +1,10 @@
 """
 Orders API
 
-Implement the four endpoints below.
+Implement the four endpoints below using Python's built-in http.server module.
 Your server must listen on port 3000.
-You can use any approach — stdlib, Flask, FastAPI, etc.
+
+Docs: https://docs.python.org/3/library/http.server.html
 """
 
 import json

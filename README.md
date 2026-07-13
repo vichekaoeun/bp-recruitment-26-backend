@@ -9,15 +9,43 @@ APIs, data validation, and working with a database.
 You're building a tiny service that accepts orders, stores them, and lets you query
 them back out.
 
-## What you need to build
+## Step 1: Set up your environment
 
-A Python server (any framework you like) running on **port 3000** with these four
-endpoints:
+You'll need **Python 3.10+**. SQLite is built into Python — nothing extra to install.
 
-### 1. `POST /orders`
+```bash
+# Clone your repo
+git clone <your-repo-url>
+cd <your-repo>
 
-Create a new order. Request body:
+# (Optional) create a virtual environment
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+# venv\Scripts\activate    # Windows
+```
 
+## Step 2: Implement the endpoints
+
+Open `app.py` — it has a starter structure with four endpoints to fill in.
+You can use any framework (Flask, FastAPI, etc.) or stick with the stdlib
+`http.server` module. Just keep the file named `app.py` and make sure it
+listens on **port 3000**.
+
+If you use a framework, add a `requirements.txt` with your dependencies.
+
+### What to build
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/orders` | Create a new order |
+| `GET` | `/orders` | List all orders (optional `?status=` filter) |
+| `GET` | `/orders/<id>` | Get a single order by ID |
+| `PATCH` | `/orders/<id>` | Update an order's status |
+
+<details>
+<summary><strong>POST /orders — details</strong></summary>
+
+Request body:
 ```json
 {
   "customer_email": "person@example.com",
@@ -30,7 +58,7 @@ Create a new order. Request body:
 - `amount` (positive number, required)
 - `status` (string, optional — defaults to `"pending"`)
 
-Respond with **201** and the stored order (including `id` and `created_at`):
+**201** response:
 ```json
 {
   "id": 1,
@@ -41,26 +69,31 @@ Respond with **201** and the stored order (including `id` and `created_at`):
 }
 ```
 
-Respond **400** with `{ "error": "..." }` for invalid payloads.
+**400** response for invalid payloads: `{ "error": "..." }`
 
-### 2. `GET /orders`
+</details>
 
-Return all stored orders as a JSON array.
+<details>
+<summary><strong>GET /orders — details</strong></summary>
 
-- Supports optional `?status=` query param to filter
-- Always returns **200** (empty array if nothing matches)
+- Returns a JSON array of all orders
+- Supports optional `?status=pending` query param to filter
+- Always returns **200** (empty array `[]` if nothing matches)
 
-### 3. `GET /orders/<id>`
+</details>
 
-Return a single order by its `id`.
+<details>
+<summary><strong>GET /orders/&lt;id&gt; — details</strong></summary>
 
 - **200** with the order if found
 - **404** with `{ "error": "not found" }` if not
 
-### 4. `PATCH /orders/<id>`
+</details>
 
-Update an order's status. Request body:
+<details>
+<summary><strong>PATCH /orders/&lt;id&gt; — details</strong></summary>
 
+Request body:
 ```json
 {
   "status": "shipped"
@@ -72,42 +105,31 @@ Update an order's status. Request body:
 - **400** with `{ "error": "..." }` if `status` is missing or invalid
 - **404** with `{ "error": "not found" }` if the order doesn't exist
 
-## Database
+</details>
 
-Use **SQLite** (via `sqlite3` from the standard library or any ORM you prefer).
-Your database should reset on each server restart — don't worry about persistence
-across runs.
+## Step 3: Set up your database
 
-Your `orders` table should have at minimum:
-- `id` — integer, primary key, auto-increment
-- `customer_email` — text, not null
-- `amount` — real, not null
-- `status` — text, not null, default `"pending"`
-- `created_at` — text, not null
+Use **SQLite** via `sqlite3` from the standard library (or an ORM if you prefer).
+Your database should reset on each server restart.
 
-## Getting started
+Create an `orders` table with at minimum:
 
-You'll need **Python 3.10+**. SQLite is included in the standard library — no extra installs for the database.
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | integer | primary key, auto-increment |
+| `customer_email` | text | not null |
+| `amount` | real | not null |
+| `status` | text | not null, default `"pending"` |
+| `created_at` | text | not null |
 
-Your entry file must be called **`app.py`**. If you have dependencies, include a
-`requirements.txt`.
+## Step 4: Test locally
+
+Start your server and test with curl:
 
 ```bash
-# Install deps (if any)
-pip install -r requirements.txt
-
-# Run your server
+# Start your server (in a separate terminal)
 python app.py
 
-# Test it manually
-curl http://localhost:3000/orders
-```
-
-## Testing your implementation
-
-Your server must be running on port 3000. You can test manually with curl:
-
-```bash
 # Create an order
 curl -X POST http://localhost:3000/orders \
   -H "Content-Type: application/json" \
@@ -128,7 +150,13 @@ curl -X PATCH http://localhost:3000/orders/1 \
   -d '{"status": "shipped"}'
 ```
 
-The full test suite will run automatically when you open a pull request.
+## Step 5: Submit
+
+1. Commit and push your changes
+2. Open a pull request to the submissions repo
+3. Check the "Checks" tab to see your test score
+
+The full test suite runs automatically on your PR. You'll see a score out of 37.
 
 ## What we're looking for
 

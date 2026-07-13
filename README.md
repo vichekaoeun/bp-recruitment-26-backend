@@ -87,6 +87,8 @@ Your `orders` table should have at minimum:
 
 ## Getting started
 
+You'll need **Python 3.10+**. SQLite is included in the standard library — no extra installs for the database.
+
 ```bash
 # Pick your framework, e.g.:
 pip install flask    # or fastapi, or use the stdlib http.server

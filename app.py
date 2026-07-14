@@ -41,7 +41,7 @@ class OrderHandler(BaseHTTPRequestHandler):
         pass
 
     def do_PATCH(self):
-        # PATCH /orders/<id> — update an order's stat
+        # PATCH /orders/<id>
         pass
 
     def log_message(self, format, *args):
